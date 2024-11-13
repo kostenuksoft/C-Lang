@@ -1,0 +1,26 @@
+﻿cmake_minimum_required (VERSION 3.8)
+
+project (codeit VERSION 0.1 LANGUAGES C CXX)
+set(CMAKE_CXX_STANDARD           17)
+set(CMAKE_CXX_STANDARD_REQUIRED YES)
+set(CMAKE_CXX_EXTENSIONS        OFF)
+
+if(NOT CMAKE_BUILD_TYPE)
+ set(CMAKE_BUILD_TYPE "Release")
+endif()
+
+set(SOURCE
+	${CMAKE_SOURCE_DIR}/src/Framework.hpp
+	${CMAKE_SOURCE_DIR}/src/rlutil.h
+	${CMAKE_SOURCE_DIR}/src/LinkedList.hpp
+	${CMAKE_SOURCE_DIR}/src/Editor.hpp
+	${CMAKE_SOURCE_DIR}/src/wmain.cpp
+)
+
+add_executable(codeit ${SOURCE})
+if (MSVC)
+	set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT codeit)
+	set_target_properties(codeit PROPERTIES RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}")
+	set_target_properties(codeit PROPERTIES RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_SOURCE_DIR}")
+	set(CMAKE_EXE_LINKER_FLAGS_RELEASE "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:CONSOLE/ENTRY:wmainCRTStartup")
+endif(MSVC)
